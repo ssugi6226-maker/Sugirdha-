@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sugirdha | The Daily You</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,800;1,6..72,400;1,6..72,600&family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+<style>
+/* ===== EDIT YOUR COLOURS HERE (3 colours + neutrals) ===== */
+:root{
+  --paper:#e8e6dd;      /* newsprint */
+  --ink:#1c1b19;        /* black ink */
+  --spot:#0f5c55;       /* spot colour: deep green-teal */
+  --mark:#f0c32e;       /* highlighter yellow */
+  --soft:#5d5b53;
+  --serif:'Newsreader',Georgia,'Times New Roman',serif;
+  --black:'UnifrakturCook','Old English Text MT',Georgia,serif;
+  --ease:cubic-bezier(.22,.8,.2,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:44px}
+body{background:var(--paper);color:var(--ink);font-family:var(--serif);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(rgba(28,27,25,.045) 1px,transparent 1.2px);background-size:5px 5px}
+body.lock{overflow:hidden}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--spot);outline-offset:3px}
+::selection{background:var(--mark)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* ===== SIGNATURE: scroll progress as a newspaper rule ===== */
+#prog{position:fixed;top:0;left:0;right:0;z-index:20;height:26px;background:var(--paper);display:flex;justify-content:space-between;align-items:center;padding:0 12px;font-size:.78rem;font-style:italic;color:var(--soft);border-bottom:1px solid var(--ink)}
+#prog b{font-weight:600;font-style:normal;font-variant-numeric:tabular-nums;color:var(--ink)}
+#fill{position:absolute;left:0;bottom:-4px;height:4px;width:100%;background:var(--spot);transform-origin:left;transform:scaleX(0)}
+#prog::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:4px;background:var(--ink);z-index:-1}
+
+/* ===== OPENING ===== */
+#intro{position:fixed;inset:0;z-index:50;background:var(--spot);color:var(--paper);display:grid;place-items:center;text-align:center;
+  -webkit-mask:radial-gradient(circle at 50% 50%,transparent var(--r,0px),#000 calc(var(--r,0px) + .5px));mask:radial-gradient(circle at 50% 50%,transparent var(--r,0px),#000 calc(var(--r,0px) + .5px))}
+#intro p{font-family:var(--black);font-size:clamp(2.2rem,11vw,4.4rem);line-height:1}
+#intro small{display:block;font-style:italic;font-size:1rem;margin-top:10px;opacity:.85}
+#ring{position:fixed;z-index:51;left:50%;top:50%;border:3px solid var(--ink);border-radius:50%;transform:translate(-50%,-50%);width:0;height:0;pointer-events:none}
+#skip{position:fixed;z-index:52;right:14px;bottom:16px;font:italic 600 1rem var(--serif);background:var(--paper);color:var(--ink);border:2px solid var(--ink);padding:8px 16px;cursor:pointer}
+#skip:hover{background:var(--mark)}
+.done #intro,.done #ring,.done #skip{display:none}
+
+/* ===== MASTHEAD ===== */
+header{padding-top:46px}
+.dateline{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 16px;font-size:.85rem;border-bottom:1px solid var(--ink);padding:6px 0}
+.mast{text-align:center;padding:18px 0 10px;border-bottom:4px double var(--ink)}
+.mast h2{font-family:var(--black);font-weight:700;font-size:clamp(2.6rem,12.5vw,6.2rem);line-height:1;letter-spacing:.01em}
+.mast p{font-style:italic;font-size:.95rem;color:var(--soft)}
+nav{display:flex;flex-wrap:wrap;justify-content:center;gap:2px 22px;border-bottom:1px solid var(--ink);padding:8px 0;font-weight:600}
+nav a{text-decoration:none;padding:2px 0;background:linear-gradient(var(--mark),var(--mark)) 0 100%/0 40% no-repeat;transition:background-size .3s var(--ease)}
+nav a:hover{background-size:100% 40%}
+
+/* ===== LANDING ===== */
+.hero{display:grid;gap:26px;padding:34px 0 40px;border-bottom:1px solid var(--ink)}
+.kicker{font-style:italic;color:var(--spot);font-weight:600}
+h1{font-weight:800;font-size:clamp(3.6rem,21vw,10.5rem);line-height:.86;letter-spacing:-.035em;margin:6px 0 14px;font-variation-settings:"opsz" 72}
+.tag{font-size:clamp(1.25rem,4.6vw,1.8rem);line-height:1.25;font-style:italic;max-width:28ch}
+.now{margin-top:20px;border:2px solid var(--ink);padding:10px 14px;max-width:34rem;background:linear-gradient(var(--paper),var(--paper))}
+.now b{background:var(--mark);padding:0 6px;margin-right:6px;font-style:normal}
+.btns{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{font:600 1.1rem var(--serif);text-decoration:none;padding:12px 26px;border:2px solid var(--ink);cursor:pointer;display:inline-block;transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .2s}
+.btn.p{background:var(--ink);color:var(--paper);box-shadow:4px 4px 0 var(--spot)}
+.btn.s{background:transparent;box-shadow:4px 4px 0 var(--mark)}
+.btn:hover{transform:translate(-2px,-2px)}
+.btn:active{transform:translate(3px,3px);box-shadow:0 0 0}
+.seal{width:min(190px,48vw);justify-self:start;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.seal svg{width:100%;height:auto;display:block;transition:transform .8s var(--ease)}
+.seal:hover svg{transform:rotate(-14deg)}
+@media(min-width:760px){.hero{grid-template-columns:1fr 210px;align-items:end}.seal{justify-self:end;align-self:start;margin-top:10px}.hero>div:first-child{grid-column:1/2}}
+
+/* ===== SECTIONS ===== */
+section{padding:44px 0;border-bottom:1px solid var(--ink)}
+h3{font-weight:800;font-size:clamp(2rem,8.5vw,3.6rem);line-height:1;letter-spacing:-.02em;margin-bottom:6px;max-width:16ch}
+.by{font-style:italic;color:var(--soft);margin-bottom:22px;border-bottom:1px solid var(--ink);padding-bottom:8px}
+.cols p{margin-bottom:1em;hyphens:auto;text-align:left}
+@media(min-width:760px){.cols{column-count:2;column-gap:38px;column-rule:1px solid var(--ink)}.cols p{text-align:justify}}
+.drop::first-letter{font-weight:800;float:left;font-size:4.6rem;line-height:.78;padding:6px 8px 0 0;color:var(--spot)}
+blockquote{break-inside:avoid;font-size:1.5rem;line-height:1.2;font-style:italic;font-weight:600;border-top:4px double var(--ink);border-bottom:4px double var(--ink);padding:14px 0;margin:6px 0 18px}
+
+/* skills = market report with dot leaders */
+.report{display:grid;gap:34px;margin-top:6px}
+@media(min-width:760px){.report{grid-template-columns:1.25fr 1fr}}
+.report h4{font-style:italic;font-size:1.2rem;border-bottom:2px solid var(--ink);margin-bottom:8px}
+.row{display:flex;align-items:baseline;gap:6px;padding:3px 0}
+.row i{flex:1;border-bottom:2px dotted var(--soft);transform:translateY(-4px);min-width:16px}
+.row em{font-weight:600}
+.lv-c{background:var(--mark);padding:0 6px}
+.lv-l{color:var(--spot)}
+.note{font-size:.95rem;font-style:italic;color:var(--soft);margin-top:10px}
+
+/* journey = uneven front-page layout */
+.press{display:grid;gap:0}
+.press article{padding:18px 0;border-bottom:1px solid var(--ink)}
+.press article:last-child{border:0}
+.press h5{font-weight:800;line-height:1.02;letter-spacing:-.015em;margin-bottom:6px}
+.lead h5{font-size:clamp(1.9rem,7vw,3rem)}
+.press .k{font-style:italic;color:var(--spot);font-weight:600}
+.press h5.sm{font-size:1.5rem}
+@media(min-width:760px){
+ .press{grid-template-columns:1.5fr 1fr 1fr;gap:0 28px}
+ .press article{border-bottom:0;padding:6px 0}
+ .press article+article{border-left:1px solid var(--ink);padding-left:28px}
+ .press article:nth-child(3){background:none}
+}
+
+/* beyond code */
+.life{display:grid;gap:28px}
+@media(min-width:760px){.life{grid-template-columns:1.2fr 1fr;align-items:start}}
+.box{border:3px double var(--ink);padding:16px 18px;background:var(--paper)}
+.box h4{font-size:1.4rem;line-height:1.1;margin-bottom:8px}
+.box li{margin:0 0 8px 18px}
+.life ul.h{list-style:none}
+.life ul.h li{margin:0;padding:8px 0;border-bottom:1px solid rgba(28,27,25,.35)}
+.life ul.h b{font-size:1.15rem}
+
+/* contact */
+.letters a.big{display:block;font-weight:800;font-size:clamp(1.5rem,6.2vw,3.2rem);line-height:1.15;letter-spacing:-.015em;word-break:break-word;text-decoration:none;border-bottom:2px solid var(--ink);padding:10px 0;transition:padding .35s var(--ease),background .2s}
+.letters a.big:hover{padding-left:16px;background:var(--mark)}
+.letters a small{display:block;font:italic 400 .95rem var(--serif);letter-spacing:0;color:var(--soft)}
+footer{text-align:center;padding:26px 0 70px;font-size:.9rem;font-style:italic;color:var(--soft)}
+
+/* easter egg */
+#extra{position:fixed;inset:0;z-index:60;background:rgba(28,27,25,.82);display:none;place-items:center;padding:20px}
+#extra.on{display:grid}
+#extra .sheet{background:var(--paper);border:4px double var(--ink);padding:26px 22px;max-width:30rem;text-align:center;transform:rotate(-2deg);animation:slam .5s var(--ease)}
+#extra h6{font-family:var(--black);font-size:clamp(2.4rem,12vw,4rem);line-height:1;color:var(--spot)}
+#extra p{margin:12px 0 18px;font-size:1.15rem}
+@keyframes slam{from{transform:rotate(8deg) scale(1.5);opacity:0}to{transform:rotate(-2deg) scale(1);opacity:1}}
+
+/* in-page reveal for print-block feel (once per heading) */
+h3,h1{background:linear-gradient(var(--mark),var(--mark)) 0 88%/0 .28em no-repeat;transition:background-size .9s var(--ease)}
+h3.in,h1.in{background-size:100% .28em}
+
+@media(prefers-reduced-motion:reduce){
+ html{scroll-behavior:auto}
+ *{transition:none!important;animation:none!important}
+ h3,h1{background-size:100% .28em}
+}
+</style>
+</head>
+<body class="lock">
+
+<div id="prog" aria-hidden="true"><span>The Daily You</span><b id="pct">0% read</b><div id="fill"></div></div>
+
+<div id="intro" role="presentation"><div><p>The Daily You</p><small>Going to press…</small></div></div>
+<div id="ring"></div>
+<button id="skip" type="button">Skip</button>
+
+<header class="wrap">
+  <div class="dateline"><span id="date">Vol. 1, No. 1</span><span>First edition</span><span>Price: one conversation</span></div>
+  <div class="mast"><h2>The Daily You</h2><p>All the news that is fit to be me</p></div>
+  <nav aria-label="Sections"><a href="#about">About</a><a href="#skills">Skills</a><a href="#journey">Journey</a><a href="#beyond">Beyond code</a><a href="#contact">Contact</a></nav>
+</header>
+
+<main class="wrap">
+
+<div class="hero">
+  <div>
+    <p class="kicker">Front page, first-year edition</p>
+    <h1>Sugirdha</h1>
+    <p class="tag">First-year IT student, learning to build things that work and look like a person made them.</p>
+    <!-- EDIT: write the tagline in your own words -->
+    <p class="now"><b>Currently</b>learning HTML and CSS properly, and reading about how the internet actually works.</p>
+    <!-- EDIT: your real "currently" -->
+    <div class="btns"><a class="btn p" href="#about">Explore</a><a class="btn s" href="#contact">Say hi</a></div>
+  </div>
+  <div class="seal" id="seal" role="img" aria-label="Monogram seal with the letter S">
+    <svg viewBox="0 0 200 200">
+      <defs><path id="c" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+      <circle cx="100" cy="100" r="96" fill="var(--ink)"/>
+      <circle cx="100" cy="100" r="90" fill="none" stroke="var(--paper)" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="58" fill="var(--paper)"/>
+      <circle cx="100" cy="100" r="54" fill="none" stroke="var(--ink)" stroke-width="1"/>
+      <text font-family="Newsreader,serif" font-size="15.5" font-style="italic" fill="var(--paper)" letter-spacing="1.6"><textPath href="#c">The Daily You  ·  Edition no. 1  ·  Printed by hand  ·  </textPath></text>
+      <text x="100" y="128" text-anchor="middle" font-family="UnifrakturCook,serif" font-size="92" font-weight="700" fill="var(--spot)">S</text>
+    </svg>
+  </div>
+</div>
+
+<section id="about">
+  <h3>Hello, I'm Sugirdha, and this is my first paper</h3>
+  <p class="by">By the writer, who is also the subject</p>
+  <div class="cols">
+    <p class="drop">I'm a first-year B.Tech student in Information Technology at [your college, your city]. I picked IT because [the real reason you chose it], and so far it has been equal parts confusing and thrilling. I like the moment when a small thing I typed suddenly does what I meant.</p>
+    <p>I'm not an expert and I won't pretend to be. What I am is curious, and stubborn about finishing what I start. When something breaks, I would rather understand why than copy a fix and move on.</p>
+    <blockquote>I'd rather build one small thing properly than ten things halfway.</blockquote>
+    <p>Right now I'm building the basics: how pages are made, how code thinks, how to ask a good question. [Add one more story: a teacher, a first program, a moment that made you stay.]</p>
+    <p>This site is a newspaper because I like things that are made with care and read slowly. It's also my first real project I wanted to show people.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <h3>Market report: what I can and can't do yet</h3>
+  <p class="by">Honest numbers don't exist here, only honest words</p>
+  <div class="report">
+    <div>
+      <h4>The tools</h4>
+      <div class="row"><span>HTML</span><i></i><em class="lv-c">Comfortable</em></div>
+      <div class="row"><span>CSS</span><i></i><em class="lv-l">Learning</em></div>
+      <div class="row"><span>C or Python</span><i></i><em class="lv-l">Learning</em></div>
+      <div class="row"><span>JavaScript</span><i></i><em>Just started</em></div>
+      <div class="row"><span>Git and GitHub</span><i></i><em>Just started</em></div>
+      <!-- EDIT: change to your real skills -->
+    </div>
+    <div>
+      <h4>The habits</h4>
+      <div class="row"><span>Asking questions</span><i></i><em class="lv-c">Comfortable</em></div>
+      <div class="row"><span>Debugging patiently</span><i></i><em class="lv-l">Learning</em></div>
+      <div class="row"><span>Working in a team</span><i></i><em class="lv-l">Learning</em></div>
+      <p class="note">"Comfortable" means I can do it without looking everything up. "Learning" means I can, but slowly.</p>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <h3>The journey so far, in three stories</h3>
+  <p class="by">Past, present, future</p>
+  <div class="press">
+    <article class="lead">
+      <p class="k">What I've made</p>
+      <h5>[Name of your project] goes live</h5>
+      <p>[Describe one thing you built: what it does, what went wrong while making it, and what you fixed.] This portfolio counts too: every line of it is something I had to understand to change.</p>
+    </article>
+    <article>
+      <p class="k">What I'm learning</p>
+      <h5 class="sm">Programming, from the ground up</h5>
+      <p>[Your subjects or courses]. Slowly turning "I copied it" into "I know why it works."</p>
+    </article>
+    <article>
+      <p class="k">What I want to build</p>
+      <h5 class="sm">Something people actually use</h5>
+      <p>[Your dream project: an app, a tool, a website for a cause you care about.]</p>
+    </article>
+  </div>
+</section>
+
+<section id="beyond">
+  <h3>Beyond code: the lifestyle pages</h3>
+  <p class="by">What I do when the laptop is shut</p>
+  <div class="life">
+    <ul class="h">
+      <li><b>[Hobby one]</b><br>[One honest line about why you love it.]</li>
+      <li><b>[Hobby two]</b><br>[One honest line.]</li>
+      <li><b>[Hobby three]</b><br>[One honest line.]</li>
+    </ul>
+    <aside class="box">
+      <h4>Did you know?</h4>
+      <ul>
+        <li>[Fun fact about you, the stranger the better.]</li>
+        <li>[Another fun fact.]</li>
+        <li>I have never typed my own name fast enough without a typo.</li>
+      </ul>
+    </aside>
+  </div>
+</section>
+
+<section id="contact">
+  <h3>Letters to the editor</h3>
+  <p class="by">I read every one</p>
+  <div class="letters">
+    <a class="big" href="mailto:your.email@example.com"><small>Write to me</small>your.email@example.com</a>
+    <a class="big" href="https://www.linkedin.com/in/your-handle" target="_blank" rel="noopener"><small>LinkedIn</small>linkedin.com/in/your-handle</a>
+    <a class="big" href="https://github.com/your-handle" target="_blank" rel="noopener"><small>GitHub</small>github.com/your-handle</a>
+  </div>
+</section>
+
+</main>
+
+<footer>Printed by Sugirdha, first-year IT. Fonts: Newsreader and UnifrakturCook. Turn the seal over three times for a surprise.</footer>
+
+<div id="extra" role="dialog" aria-label="Extra edition"><div class="sheet"><h6>Extra! Extra!</h6><p>Local student found reading the source code. Stop press: you're now an honorary editor. Hi, and thank you for looking closely.</p><button class="btn p" id="closeX" type="button">Back to the news</button></div></div>
+
+<script>
+(function(){
+  var d=document, body=d.body, intro=d.getElementById('intro'), ring=d.getElementById('ring');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // date in dateline
+  try{d.getElementById('date').textContent=new Date().toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}catch(e){}
+
+  // Opening: colour circle grows from the centre (2.2s, once)
+  var finished=false, raf;
+  function finish(){
+    if(finished)return; finished=true; cancelAnimationFrame(raf);
+    body.classList.remove('lock'); body.classList.add('done'); reveal(); onScroll();
+  }
+  if(reduce){finish()}else{
+    var max=Math.hypot(innerWidth,innerHeight)/2+10, hold=700, grow=1500, t0=performance.now();
+    (function tick(now){
+      var t=now-t0-hold;
+      if(t<0){raf=requestAnimationFrame(tick);return}
+      var p=Math.min(t/grow,1), e=p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2, r=e*max;
+      intro.style.setProperty('--r',r+'px'); ring.style.width=ring.style.height=(r*2)+'px';
+      if(p<1)raf=requestAnimationFrame(tick);else finish();
+    })(t0);
+  }
+  d.getElementById('skip').addEventListener('click',finish);
+
+  // Signature: scroll progress rule
+  var fill=d.getElementById('fill'), pct=d.getElementById('pct');
+  function onScroll(){
+    var h=d.documentElement.scrollHeight-innerHeight, p=h>0?Math.min(scrollY/h,1):0;
+    fill.style.transform='scaleX('+p+')'; pct.textContent=Math.round(p*100)+'% read';
+  }
+  addEventListener('scroll',onScroll,{passive:true}); addEventListener('resize',onScroll); onScroll();
+
+  // headline highlight when scrolled into view (headlines only)
+  function reveal(){
+    var els=d.querySelectorAll('h1,h3');
+    if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('in');io.unobserve(x.target)}})},{threshold:.6});
+    els.forEach(function(e){io.observe(e)});
+  }
+
+  // Easter egg: click the seal three times
+  var n=0,tm,x=d.getElementById('extra');
+  d.getElementById('seal').addEventListener('click',function(){
+    n++; clearTimeout(tm); tm=setTimeout(function(){n=0},900);
+    if(n>=3){n=0;x.classList.add('on');d.getElementById('closeX').focus()}
+  });
+  function close(){x.classList.remove('on')}
+  d.getElementById('closeX').addEventListener('click',close);
+  addEventListener('keydown',function(e){if(e.key==='Escape')close()});
+})();
+</script>
+</body>
+</html>
